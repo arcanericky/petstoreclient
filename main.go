@@ -9,11 +9,7 @@ import (
 )
 
 func addPet(id int64, petName string, urls []string) {
-	var newPet models.Pet
-
-	newPet.ID = id
-	newPet.Name = &petName
-	newPet.PhotoUrls = urls
+	newPet := models.Pet{ID: id, Name: &petName, PhotoUrls: urls}
 	newPetParams := pet.NewAddPetParams()
 	newPetParams.Body = &newPet
 
@@ -39,11 +35,9 @@ func getPet(id int64) {
 	//     How can the raw response body be retrieved? This response
 	//     body can be in XML or JSON depending on #1. In both cases
 	//     I need the raw response.
-	authOk, err := apiclient.Default.Pet.GetPetByID(getPetParams, nil)
-
-	if err == nil {
+	if authOk, err := apiclient.Default.Pet.GetPetByID(getPetParams, nil); err == nil {
 		fmt.Println(authOk)
-		fmt.Printf("ID: %d\nName: %s\nPhotoURLs: %s\n",
+		fmt.Printf("ID: %d\nName: %s\nPhotoUrls: %s\n",
 			authOk.Payload.ID,
 			*authOk.Payload.Name,
 			authOk.Payload.PhotoUrls)
