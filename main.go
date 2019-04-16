@@ -4,16 +4,57 @@ import (
 	"fmt"
 
 	apiclient "github.com/arcanericky/petstoreclient/client"
+	"github.com/arcanericky/petstoreclient/client/pet"
+	"github.com/arcanericky/petstoreclient/models"
 )
 
-func main() {
-	fmt.Println("Fetching Inventory")
+func addPet(id int64, petName string, urls []string) {
+	var newPet models.Pet
 
-	authOk, err := apiclient.Default.Store.GetInventory(nil, nil)
+	newPet.ID = id
+	newPet.Name = &petName
+	newPet.PhotoUrls = urls
+	newPetParams := pet.NewAddPetParams()
+	newPetParams.Body = &newPet
+
+	fmt.Println("Adding pet")
+	apiclient.Default.Pet.AddPet(newPetParams, nil)
+}
+
+func getPet(id int64) {
+	getPetParams := pet.NewGetPetByIDParams()
+	getPetParams.PetID = id
+
+	fmt.Println("Fetching pet")
+	// HELP HERE
+	//
+	//   The endpoint is specified at:
+	//     https://petstore.swagger.io/#/pet/getPetById
+	//
+	//   Question 1
+	//     This endpoint allows response types of "application/xml"
+	//     and "application/json". How do you specify these?
+	//
+	//   Question 2
+	//     How can the raw response body be retrieved? This response
+	//     body can be in XML or JSON depending on #1. I both cases
+	//     I need the raw response.
+	authOk, err := apiclient.Default.Pet.GetPetByID(getPetParams, nil)
 
 	if err == nil {
 		fmt.Println(authOk)
+		fmt.Printf("ID: %d\nName: %s\nPhotoURLs: %s\n",
+			authOk.Payload.ID,
+			*authOk.Payload.Name,
+			authOk.Payload.PhotoUrls)
 	} else {
 		fmt.Println(err)
 	}
+}
+
+func main() {
+	const petID = 13371337
+
+	addPet(petID, "geek", []string{"https://en.wikipedia.org/wiki/Geek"})
+	getPet(petID)
 }
