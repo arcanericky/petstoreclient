@@ -37,7 +37,7 @@ func getPet(id int64) {
 	//
 	//   Question 2
 	//     How can the raw response body be retrieved? This response
-	//     body can be in XML or JSON depending on #1. I both cases
+	//     body can be in XML or JSON depending on #1. In both cases
 	//     I need the raw response.
 	authOk, err := apiclient.Default.Pet.GetPetByID(getPetParams, nil)
 
