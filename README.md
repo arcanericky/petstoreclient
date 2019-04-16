@@ -2,7 +2,7 @@
 
 ### Purpose
 
-Illustrate a request for help to:
+Illustrate a request for help using [go-swagger](https://github.com/go-swagger/go-swagger) to:
 - Change the header to `accept: application/json` or `accept: application/xml` to receive different responses
 - Get the response body output (unparsed, raw XML or JSON)
 
